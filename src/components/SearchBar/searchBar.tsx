@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import './searchBar.css';
 
 interface SearchBarProps {
@@ -6,15 +6,23 @@ interface SearchBarProps {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      onSearch(query);
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query, onSearch]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value;
-    onSearch(query);
+    setQuery(event.target.value);
   };
 
   return (
-    <div>
-      <label htmlFor="search-input">Search:</label>
-      <input type="text" id="search-input" onChange={handleChange} />
+    <div className="search-bar">
+      <input type="text" placeholder="Search artworks" value={query} onChange={handleChange} />
     </div>
   );
 };

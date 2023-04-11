@@ -1,16 +1,18 @@
-import React, { FC } from 'react';
-import './header.css';
+import React from 'react';
+import SearchBar from '../SearchBar/searchBar';
 
-type HeaderProps = {
-  title: string;
-  subtitle: string;
-};
+interface HeaderProps {
+  onSearch: (query: string) => void;
+}
 
-const Header: FC<HeaderProps> = ({ title, subtitle }) => {
+const Header: React.FC<HeaderProps> = ({ onSearch }) => {
   return (
-    <header>
-      <h1>{title}</h1>
-      <h2>{subtitle}</h2>
+    <header className="header">
+      <div className="header-logo">VAV</div>
+      <h1 className="header-title">Explore and Appreciate the World's Masterpieces</h1>
+      <div className="header-search-bar">
+        <SearchBar onSearch={onSearch} />
+      </div>
     </header>
   );
 };
